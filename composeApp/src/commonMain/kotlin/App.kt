@@ -17,6 +17,7 @@ import io.github.vrcmteam.vrcm.presentation.animations.slideScreenTransition
 import io.github.vrcmteam.vrcm.presentation.compoments.SharedTransitionDialog
 import io.github.vrcmteam.vrcm.presentation.compoments.SharedTransitionScreen
 import io.github.vrcmteam.vrcm.presentation.compoments.SnackBarToastBox
+import io.github.vrcmteam.vrcm.presentation.extensions.LocalOnBackHook
 import io.github.vrcmteam.vrcm.presentation.extensions.isTransitioningFromTo
 import io.github.vrcmteam.vrcm.presentation.extensions.isTransitioningOn
 import io.github.vrcmteam.vrcm.presentation.extensions.slideBack
@@ -32,7 +33,11 @@ import org.koin.compose.KoinContext
 fun App() {
     KoinContext {
         SettingsProvider {
-            Navigator(StartupAnimeScreen) {
+            val current = LocalOnBackHook.current
+            Navigator(
+                screen = StartupAnimeScreen,
+                onBackPressed = { current.value() }
+            ) {
                 SnackBarToastBox(
                     Modifier
                         .systemBarsPadding()
@@ -61,3 +66,4 @@ fun AnimatedContentTransitionScope<Screen>.selectTransition(navigator: Navigator
         isTransitioningFromTo<AuthAnimeScreen, HomeScreen>() -> AuthAnimeToHomeTransition
         else -> ContentTransform(EnterTransition.None, ExitTransition.None)
     }
+

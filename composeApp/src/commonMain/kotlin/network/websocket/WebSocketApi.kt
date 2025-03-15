@@ -11,7 +11,6 @@ import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.*
-import kotlin.time.Duration.Companion.seconds
 
 class WebSocketApi(
     private val apiClient: HttpClient,
@@ -26,6 +25,11 @@ class WebSocketApi(
             SharedFlowCentre.authed.collect {
                 currentJob?.cancel()
                 currentJob = launch { startWebSocket() }
+            }
+        }
+        scope.launch {
+            SharedFlowCentre.logout.collect {
+                currentJob?.cancel()
             }
         }
     }
@@ -47,10 +51,11 @@ class WebSocketApi(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            delay(3.seconds)
-            coroutineScope {
-                this.launch { startWebSocket() }
-            }
+//            delay(5.seconds)
+//
+//            coroutineScope {
+//                launch { startWebSocket() }
+//            }
         }
     }
 

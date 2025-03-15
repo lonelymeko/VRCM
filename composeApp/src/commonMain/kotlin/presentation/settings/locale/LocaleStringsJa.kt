@@ -19,6 +19,8 @@ internal val LocaleStringsJa = LocaleStrings(
     fiendListPagerSearch = "検索",
     notificationFriendRequest = "はあなたの友達になりたい",
     homeNotificationEmpty = "お知らせはまだありません",
+    homeStatusEdit = "ステータスを編集",
+    homeUpdateStatus = "ステータスを更新",
     stettingLanguage = "言語",
     stettingThemeMode = "テーマモード",
     stettingSystemThemeMode = "システム",
@@ -43,6 +45,6 @@ internal val LocaleStringsJa = LocaleStrings(
     locationDialogAuthor = "作者",
     locationDialogDescription = "説明",
     locationDialogTags = "タグ",
-    locationInvited= "誘い済み",
-    locationInviteMe= "自分を誘う",
+    locationInvited = "誘い済み",
+    locationInviteMe = "自分を誘う",
 )

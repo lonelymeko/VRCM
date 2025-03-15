@@ -6,6 +6,8 @@ import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -79,8 +81,9 @@ fun Modifier.slideBack(
     orientation: Orientation = Orientation.Horizontal,
 ) = this.composed {
     val navigator = LocalNavigator.currentOrThrow
+    val onBackHook = LocalOnBackHook.current.value
     draggable(rememberDraggableState {
-        if (navigator.canPop && it > threshold) navigator.pop()
+        if (navigator.canPop && it > threshold && onBackHook()) navigator.pop()
     }, orientation)
 }
 
@@ -97,10 +100,11 @@ fun Modifier.glideBack(
     }, orientation)
 }
 
+
 /**
  * 去除点击水波纹效果
- */
-@Composable
+  */
+ @Composable
 fun Modifier.simpleClickable(
     onClick: () -> Unit,
 ) = this.clickable(
@@ -108,3 +112,6 @@ fun Modifier.simpleClickable(
     interactionSource = remember { MutableInteractionSource() },
     onClick = onClick
 )
+
+
+val LocalOnBackHook = compositionLocalOf { mutableStateOf({ true }) }

@@ -29,7 +29,7 @@ import io.github.vrcmteam.vrcm.presentation.extensions.animateScrollToFirst
 import io.github.vrcmteam.vrcm.presentation.extensions.currentNavigator
 import io.github.vrcmteam.vrcm.presentation.extensions.getInsetPadding
 import io.github.vrcmteam.vrcm.presentation.screens.home.data.FriendLocation
-import io.github.vrcmteam.vrcm.presentation.screens.home.data.InstantsVo
+import io.github.vrcmteam.vrcm.presentation.screens.home.data.HomeInstanceVo
 import io.github.vrcmteam.vrcm.presentation.screens.user.UserProfileScreen
 import io.github.vrcmteam.vrcm.presentation.screens.user.data.UserProfileVo
 import io.github.vrcmteam.vrcm.presentation.settings.locale.strings
@@ -95,7 +95,10 @@ fun Pager.FriendLocationPager(
     val sharedSuffixKey = LocalSharedSuffixKey.current
     val onClickLocation: (FriendLocation) -> Unit = {
         currentLocation = it
-        currentDialog = LocationDialog(it,sharedSuffixKey){
+        currentDialog = LocationDialog(
+            friendLocation = it,
+            sharedSuffixKey = sharedSuffixKey
+        ){
             currentDialog = null
             currentLocation = null
         }
@@ -292,7 +295,7 @@ private fun AnimatedVisibilityScope.LocationCard(
                             region = instants.region
                         )
                         Text(
-                            text = instants.accessType,
+                            text = instants.accessType.displayName,
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.outline
                         )
@@ -323,7 +326,7 @@ private fun AnimatedVisibilityScope.LocationCard(
 private inline fun MemberInfoRow(
 //    showUser: Boolean,
     friendList: List<State<FriendData>>,
-    instants: InstantsVo,
+    instants: HomeInstanceVo,
 ) {
     Row(
         modifier = Modifier
